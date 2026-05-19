@@ -1,0 +1,99 @@
+#version: "3.8"
+#
+#services:
+#  selenium:
+#    image: selenium/standalone-chrome:latest
+#    container_name: docker-sandbox-selenium
+#    shm_size: 2gb
+#    environment:
+#      - LANG=C.UTF-8
+#      - LC_ALL=C.UTF-8
+#      - SE_VNC_NO_PASSWORD=1
+#      - SE_SCREEN_WIDTH=1800
+#      - SE_SCREEN_HEIGHT=960
+#      - SE_NODE_MAX_SESSIONS=5
+#      - SE_NODE_OVERRIDE_MAX_SESSIONS=true
+#    ports:
+#      - "4444:4444"
+#      - "7900:7900"
+#
+#  ubuntu:
+#    build:
+#      context: .
+#      args:
+#        uid: ${USER_ID:-1000}
+#    container_name: docker-sandbox-ubuntu
+#    stdin_open: true
+#    tty: true
+#    volumes:
+#      - ./tests:/home/selenium/tests
+#    depends_on:
+#      - selenium
+
+version: "3.8"
+
+services:
+  selenium-hub:
+    image: selenium/hub:latest
+    container_name: docker-sandbox-selenium-hub
+    ports:
+      - "4444:4444"
+
+  chrome:
+    image: selenium/node-chrome:latest
+    container_name: docker-sandbox-chrome
+    shm_size: 2gb
+    depends_on:
+      - selenium-hub
+    environment:
+      - LANG=C.UTF-8
+      - LC_ALL=C.UTF-8
+      - SE_EVENT_BUS_HOST=selenium-hub
+      - SE_EVENT_BUS_PUBLISH_PORT=4442
+      - SE_EVENT_BUS_SUBSCRIBE_PORT=4443
+      - SE_VNC_NO_PASSWORD=1
+      - SE_SCREEN_WIDTH=1800
+      - SE_SCREEN_HEIGHT=960
+      - SE_NODE_MAX_SESSIONS=5
+      - SE_NODE_OVERRIDE_MAX_SESSIONS=true
+    ports:
+      - "7900:7900"
+    volumes:
+      - ./tests:/home/selenium/tests
+
+  firefox:
+    image: selenium/node-firefox:latest
+    container_name: docker-sandbox-firefox
+    shm_size: 2gb
+    depends_on:
+      - selenium-hub
+    environment:
+      - LANG=C.UTF-8
+      - LC_ALL=C.UTF-8
+      - SE_EVENT_BUS_HOST=selenium-hub
+      - SE_EVENT_BUS_PUBLISH_PORT=4442
+      - SE_EVENT_BUS_SUBSCRIBE_PORT=4443
+      - SE_VNC_NO_PASSWORD=1
+      - SE_SCREEN_WIDTH=1800
+      - SE_SCREEN_HEIGHT=960
+      - SE_NODE_MAX_SESSIONS=5
+      - SE_NODE_OVERRIDE_MAX_SESSIONS=true
+    ports:
+      - "7901:7900"
+    volumes:
+      - ./tests:/home/selenium/tests
+
+  ubuntu:
+    build:
+      context: .
+      args:
+        uid: ${USER_ID:-1000}
+    container_name: docker-sandbox-ubuntu
+    stdin_open: true
+    tty: true
+    volumes:
+      - ./tests:/home/selenium/tests
+    depends_on:
+      - selenium-hub
+      - chrome
+      - firefox
