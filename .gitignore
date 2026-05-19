@@ -1,0 +1,20 @@
+.idea/
+*.iml
+
+# Gradle
+.gradle/
+build/
+**/.gradle/
+**/build/
+
+# Test output
+**/build/reports/
+**/build/test-results/
+**/build/screenshots/
+
+# Java
+*.class
+
+# OS files
+.DS_Store
+Thumbs.db

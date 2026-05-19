@@ -2,7 +2,7 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
-public class StaticPages extends BasePage {
+public class ProductPages extends BasePage {
     public static final String[] PRODUCT_PATHS = {
             "index.php?route=product/product&product_id=40",
             "index.php?route=product/product&product_id=43",
@@ -38,7 +38,7 @@ public class StaticPages extends BasePage {
     public static final By PRODUCT_HEADING = By.xpath("//div[@id='content']//div[contains(@class,'col-sm-4')]//h1");
     public static final By PRODUCT_PRICE = By.xpath("//div[@id='content']//div[contains(@class,'col-sm-4')]//ul[contains(@class,'list-unstyled')]//h2");
 
-    public StaticPages(WebDriver driver, WebDriverWait wait) {
+    public ProductPages(WebDriver driver, WebDriverWait wait) {
         super(driver, wait);
     }
 
@@ -54,7 +54,7 @@ public class StaticPages extends BasePage {
         return getText(PRODUCT_PRICE);
     }
 
-    public String getProductTitleText() {
+    public String getPageTitle() {
         return getTitle();
     }
 }

@@ -2,18 +2,18 @@ import org.junit.Test;
 
 import static org.junit.Assert.assertEquals;
 
-public class StaticPagesTest extends BaseTest {
+public class ProductPagesTest extends BaseTest {
 
     @Test
     public void shouldShowExpectedHeadingsPricesAndTitlesOnProductPages() {
-        StaticPages staticPages = new StaticPages(driver, wait);
+        ProductPages productPages = new ProductPages(driver, wait);
 
-        for (int i = 0; i < StaticPages.PRODUCT_PATHS.length; i++) {
-            staticPages.openProductPage(baseUrl, i);
+        for (int i = 0; i < ProductPages.PRODUCT_PATHS.length; i++) {
+            productPages.openProductPage(baseUrl, i);
 
-            assertEquals(StaticPages.EXPECTED_HEADINGS[i], staticPages.getProductHeadingText());
-            assertEquals(StaticPages.EXPECTED_PRICES[i], staticPages.getProductPriceText());
-            assertEquals(StaticPages.EXPECTED_TITLES[i], staticPages.getProductTitleText());
+            assertEquals(ProductPages.EXPECTED_HEADINGS[i], productPages.getProductHeadingText());
+            assertEquals(ProductPages.EXPECTED_PRICES[i], productPages.getProductPriceText());
+            assertEquals(ProductPages.EXPECTED_TITLES[i], productPages.getPageTitle());
         }
     }
 }
